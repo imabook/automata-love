@@ -7,6 +7,16 @@ local numbers = false
 
 local debugNumbers = {}
 
+-- por si se pasan las dimensions por consola
+if arg[2] then
+	ROWS = arg[2]
+	COLUMNS = arg[2]
+end
+
+if arg[3] then
+	COLUMNS = arg[3]
+end
+
 function love.load()
 	Board:setup(ROWS, COLUMNS)
 	love.window.setMode(WIDTH, HEIGHT, {
@@ -77,8 +87,10 @@ function love.keypressed(key)
 		end
 	elseif key == "up" then
 		VEL = VEL + 0.5
+		print("VEL: " .. VEL .. " steps/second")
 	elseif key == "down" then
 		VEL = VEL - 0.5
+		print("VEL: " .. VEL .. " steps/second")
 	elseif key == "h" then
 		heatmap = not heatmap
 	elseif key == "n" then

@@ -4,7 +4,7 @@ local function wrap(value, max)
 	return ((value - 1) % max) + 1
 end
 
-return function(b, x, y)
+function conwayStep(b, x, y)
 	local surround = 0
 	for i = -1, 1, 1 do
 		for j = -1, 1, 1 do
@@ -30,6 +30,14 @@ return function(b, x, y)
 			b.nextState[y][x] = true
 		else
 			b.nextState[y][x] = false
+		end
+	end
+end
+
+return function(b)
+	for i = 1, b.y, 1 do
+		for j = 1, b.x, 1 do
+			conwayStep(b, j, i)
 		end
 	end
 end

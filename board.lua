@@ -33,25 +33,16 @@ function Board:sim(start, dt)
 	end
 
 	totalFrames = totalFrames + dt
-	print(dt)
+	-- print(totalFrames)
 
-	-- es nuevo segundo, simular siguiente paso (cambiar para que se pueda cambiar la velocidad de )
 	if totalFrames % (1 / VEL) >= totalFrames then
 		return
 	end
 
 	totalFrames = totalFrames % (1 / VEL)
 
-	self:_sim()
+	require "rulesets.conway" (self) -- wow bastante cursed
 	-- self.state[math.random(self.y)][math.random(self.x)] = 1
-end
-
-function Board:_sim()
-	for i = 1, self.y, 1 do
-		for j = 1, self.x, 1 do
-			require "rulesets.conway" (self, j, i) -- wow bastante cursed
-		end
-	end
 
 	for i = 1, self.y, 1 do
 		for j = 1, self.x, 1 do
