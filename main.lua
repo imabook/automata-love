@@ -1,5 +1,6 @@
 require "globals"
 require "board"
+require "save"
 
 local start = false
 local heatmap = false
@@ -7,18 +8,35 @@ local numbers = false
 
 local debugNumbers = {}
 
--- por si se pasan las dimensions por consola
-if arg[2] then
-	ROWS = arg[2]
-	COLUMNS = arg[2]
+-- por si se pasan las dimensions por consola (o frames a guardar)
+do
+	local i = 2
+	while i <= #arg do
+		print(arg[i])
+		if arg[i] == "-s" and i + 1 <= #arg then
+			i = i + 1 -- en un for se sobreescribiria la i en la siguiente step
+			FRAMES = tonumber(arg[i])
+		else
+			if not COLUMNS then
+				COLUMNS = tonumber(arg[i])
+				ROWS = tonumber(arg[i])
+			else
+				ROWS = tonumber(arg[i])
+			end
+		end
+
+		i = i + 1
+	end
 end
 
-if arg[3] then
-	COLUMNS = arg[3]
+if not COLUMNS then
+	COLUMNS = DEFAULT_COLUMNS
+	ROWS = DEFAULT_ROWS
 end
+
 
 function love.load()
-	Board:setup(ROWS, COLUMNS)
+	Board:setup(COLUMNS, ROWS)
 	love.window.setMode(WIDTH, HEIGHT, {
 		resizable = false,
 		fullscreen = false
@@ -35,6 +53,7 @@ end
 
 function love.update(dt)
 	Board:sim(start, dt)
+	if save_frames(start, dt) then start = false end
 end
 
 function love.draw()
@@ -95,7 +114,10 @@ function love.keypressed(key)
 		heatmap = not heatmap
 	elseif key == "n" then
 		numbers = not numbers
+	elseif key == "s" then
+		start_save()
 	elseif key == "escape" then
+		end_save() -- handlea su cerrado si esta abierta
 		love.event.quit()
 	end
 end
