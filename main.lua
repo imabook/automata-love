@@ -51,9 +51,27 @@ function love.load()
 	love.window.setTitle("sim")
 end
 
+local speed_controller = 0
 function love.update(dt)
 	Board:sim(start, dt)
 	if save_frames(start, dt) then start = false end
+
+	if love.keyboard.isDown("up") or love.keyboard.isDown("down") then
+		speed_controller = speed_controller + dt
+		if (speed_controller >= 0.1) then
+			speed_controller = 0
+
+			if love.keyboard.isDown("up") then
+				VEL = VEL + 0.5
+			else
+				VEL = VEL - 0.5
+			end
+
+			print("VEL: " .. VEL .. " steps/second")
+		end
+	else
+		speed_controller = 0.2
+	end
 end
 
 function love.draw()
@@ -109,7 +127,6 @@ function love.keypressed(key)
 		print("VEL: " .. VEL .. " steps/second")
 	elseif key == "down" then
 		VEL = VEL - 0.5
-		print("VEL: " .. VEL .. " steps/second")
 	elseif key == "h" then
 		heatmap = not heatmap
 	elseif key == "n" then
