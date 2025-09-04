@@ -41,7 +41,7 @@ function Board:sim(start, dt)
 
 	totalFrames = totalFrames % (1 / VEL)
 
-	require "rulesets.conway" (self) -- wow bastante cursed
+	require "rulesets.cellular" (self) -- wow bastante cursed
 	-- self.state[math.random(self.y)][math.random(self.x)] = 1
 
 	for i = 1, self.y, 1 do

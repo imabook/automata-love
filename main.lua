@@ -12,7 +12,6 @@ local debugNumbers = {}
 do
 	local i = 2
 	while i <= #arg do
-		print(arg[i])
 		if arg[i] == "-s" and i + 1 <= #arg then
 			i = i + 1 -- en un for se sobreescribiria la i en la siguiente step
 			FRAMES = tonumber(arg[i])
@@ -52,14 +51,16 @@ function love.load()
 end
 
 local speed_controller = 0
+local umbral = 0.5 -- umbral para que la primera vez que pulse no vaya tan rapido
 function love.update(dt)
 	Board:sim(start, dt)
 	if save_frames(start, dt) then start = false end
 
 	if love.keyboard.isDown("up") or love.keyboard.isDown("down") then
 		speed_controller = speed_controller + dt
-		if (speed_controller >= 0.1) then
+		if (speed_controller >= umbral) then
 			speed_controller = 0
+			umbral = 0.05
 
 			if love.keyboard.isDown("up") then
 				VEL = VEL + 0.5
@@ -70,7 +71,8 @@ function love.update(dt)
 			print("VEL: " .. VEL .. " steps/second")
 		end
 	else
-		speed_controller = 0.2
+		umbral = 0.5
+		speed_controller = 0
 	end
 end
 
@@ -123,10 +125,13 @@ function love.keypressed(key)
 			end
 		end
 	elseif key == "up" then
+		-- las iba a quitar pero las dejo porque son las instantaneas;
+		-- en el update se sube si se mantiene pasados 0.5s
 		VEL = VEL + 0.5
 		print("VEL: " .. VEL .. " steps/second")
 	elseif key == "down" then
 		VEL = VEL - 0.5
+		print("VEL: " .. VEL .. " steps/second")
 	elseif key == "h" then
 		heatmap = not heatmap
 	elseif key == "n" then
