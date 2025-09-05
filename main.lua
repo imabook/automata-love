@@ -1,6 +1,7 @@
 require "globals"
 require "board"
 require "save"
+require "rulesets.config"
 
 local start = false
 local heatmap = false
@@ -43,7 +44,7 @@ function love.load()
 
 	W, H = WIDTH / Board.x, HEIGHT / Board.y
 	local font = love.graphics.newFont((W + H) / 4)
-	for i = 0, 9, 1 do
+	for i = 0, MAX_NEIGHBOURS, 1 do
 		debugNumbers[i] = love.graphics.newText(font, i)
 	end
 
@@ -82,7 +83,7 @@ function love.draw()
 	if heatmap then
 		for i = 1, Board.y, 1 do
 			for j = 1, Board.x, 1 do
-				love.graphics.setColor(Board.neighbours[i][j] * (1 / 9), 0, 0)
+				love.graphics.setColor(Board.neighbours[i][j] * (1 / MAX_NEIGHBOURS), 0, 0)
 				love.graphics.rectangle("fill", (j - 1) * W, (i - 1) * H, W, H)
 			end
 		end

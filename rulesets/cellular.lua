@@ -25,7 +25,7 @@ end
 function simulateStep(b, x, y)
 	local surround = checkNeighbourhood(b, x, y)
 
-	b.neighbours[y][x] = surround
+	b.neighbours[y][x] = surround + (SELF_COUNT and b.state[y][x] and 1 or 0)
 
 	if surround == STABLE then
 		b.nextState[y][x] = b.state[y][x]
