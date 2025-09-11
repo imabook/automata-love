@@ -2,6 +2,7 @@ require "globals"
 require "board"
 require "save"
 require "rulesets.config"
+require "rulesets.ant"
 
 local start = false
 local heatmap = false
@@ -100,6 +101,10 @@ function love.draw()
 			end
 		end
 	end
+
+	-- para la ant
+	love.graphics.setColor(0.8, 0.1, 0.1)
+	love.graphics.circle("fill", (ant.x - 1) * W + W / 2, (ant.y - 1) * H + H / 2, W / 2, H / 2)
 
 	if numbers then
 		debug()

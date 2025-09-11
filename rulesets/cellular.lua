@@ -1,9 +1,7 @@
 require "board"
 require "rulesets.config"
+require "rulesets.utils"
 
-local function wrap(value, max)
-	return ((value - 1) % max) + 1
-end
 
 local function checkNeighbourhood(b, x, y)
 	-- considera como vecindario el grid de config.lua
