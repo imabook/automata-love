@@ -19,10 +19,14 @@ function Board:setup(x, y)
 	end
 end
 
-function Board:handleClick(x, y)
+function Board:handleClick(x, y, button)
 	local i, j = math.ceil(y / H), math.ceil(x / W)
 
-	self.state[i][j] = not self.state[i][j]
+	if button == 1 then
+		self.state[i][j] = not self.state[i][j]
+	elseif button == 2 then
+		toggleAnt(i, j)
+	end
 end
 
 local totalFrames = 0

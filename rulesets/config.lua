@@ -17,3 +17,7 @@ end
 -- resto cel muere o se queda muerta
 STABLE = 4
 BORN = 1
+
+-- ANTS:
+
+ANTS = {}
